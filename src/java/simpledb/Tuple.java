@@ -1,8 +1,8 @@
 package simpledb;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +14,7 @@ public class Tuple implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private TupleDesc td;
-    private ArrayList<Field> fields;
+    private List<Field> fields;
 
     /**
      * Create a new tuple with the specified schema (type).
@@ -27,6 +27,9 @@ public class Tuple implements Serializable {
         // some code goes here
         this.td = td;
         fields = new ArrayList<Field>();
+        for (int i = 0; i < td.numFields(); i++) {
+                fields.add(null);
+        }
     }
 
     /**
@@ -66,7 +69,6 @@ public class Tuple implements Serializable {
      */
     public void setField(int i, Field f) {
         // some code goes here
-        // this fails the test case because for some reason
         fields.set(i, f);
     }
 
