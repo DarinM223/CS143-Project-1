@@ -35,7 +35,7 @@ public class TupleDesc implements Serializable {
         }
     }
 
-    ArrayList<TDItem> tditems = new ArrayList<TDItem>();
+    List<TDItem> tditems;
 
     /**
      * @return
@@ -61,9 +61,13 @@ public class TupleDesc implements Serializable {
      *            be null.
      */
     public TupleDesc(Type[] typeAr, String[] fieldAr) {
+        tditems = new ArrayList<TDItem>();
         // some code goes here
         for (int i = 0; i < typeAr.length; i++) {
-                tditems.add(new TDItem(typeAr[i], fieldAr[i]));
+                if (fieldAr[i] == null)
+                        tditems.add(new TDItem(typeAr[i], new String()));
+                else 
+                        tditems.add(new TDItem(typeAr[i], fieldAr[i]));
         }
     }
 
@@ -76,9 +80,10 @@ public class TupleDesc implements Serializable {
      *            TupleDesc. It must contain at least one entry.
      */
     public TupleDesc(Type[] typeAr) {
+        tditems = new ArrayList<TDItem>();
         // some code goes here
         for (int i = 0; i < typeAr.length; i++) {
-                tditems.add(new TDItem(typeAr[i], null));
+                tditems.add(new TDItem(typeAr[i], new String()));
         }
     }
 
@@ -156,7 +161,11 @@ public class TupleDesc implements Serializable {
      */
     public int getSize() {
         // some code goes here
-        return 0; //WATDO
+        int bytes = 0;
+        for (int i = 0; i < tditems.size(); i++) {
+                bytes += tditems.get(i).fieldType.getLen();
+        }
+        return bytes;
     }
 
     /**
@@ -184,7 +193,7 @@ public class TupleDesc implements Serializable {
         }
         //convert from ArrayList to array
         Type[] tdTypeArr = tdTypes.toArray(new Type[tdTypes.size()]); 
-        String[] tdFieldArr = tdFields.toArray(new String[tdTypes.size()]);
+        String[] tdFieldArr = tdFields.toArray(new String[tdFields.size()]);
         //create a new TupleDesc from the arrays
         TupleDesc newDesc = new TupleDesc(tdTypeArr, tdFieldArr);
         return newDesc;
@@ -206,8 +215,8 @@ public class TupleDesc implements Serializable {
                 //return false if sizes aren't the same
                 if (this.getSize() != compObj.getSize()) return false;
                 //apparently it doesn't matter what the field names are for the comparison
-                for (int i = 0; i < this.getSize(); i++) {
-                        if (this.getFieldType(i) != compObj.getFieldType(i)) {
+                for (int i = 0; i < this.numFields(); i++) {
+                        if (!this.getFieldType(i).equals(compObj.getFieldType(i))) {
                                 return false;
                         }                   
                 }
