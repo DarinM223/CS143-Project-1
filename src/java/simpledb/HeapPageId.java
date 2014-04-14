@@ -10,29 +10,14 @@ public class HeapPageId implements PageId {
      * @param tableId The table that is being referenced
      * @param pgNo The page number in that table.
      */
-	
-	pageIDStruct firstStruct;
-	
-	private static class pageIDStruct {
-		public int tableID;
-		public int pgNumber;
-
-		public pageIDStruct(int tableID, int pgNumber) {
-			this.tableID = tableID;
-			this.pgNumber = pgNumber;
-		}
-	}
-	
     public HeapPageId(int tableId, int pgNo) {
         // some code goes here
-    	firstStruct = new pageIDStruct(tableId, pgNo);
     }
 
     /** @return the table associated with this PageId */
     public int getTableId() {
         // some code goes here
-    	return firstStruct.tableID;
-//        return 0;
+        return 0;
     }
 
     /**
@@ -41,8 +26,7 @@ public class HeapPageId implements PageId {
      */
     public int pageNumber() {
         // some code goes here
-    	return firstStruct.pgNumber;
-//        return 0;
+        return 0;
     }
 
     /**
@@ -54,10 +38,6 @@ public class HeapPageId implements PageId {
     public int hashCode() {
         // some code goes here
         throw new UnsupportedOperationException("implement this");
-        Integer i = firstStruct.tableID;
-        Integer j = firstStruct.pgNumber;
-        
-        return firstStruct.tableID.toString() + (String) firstStruct.pgNumber.toString();
     }
 
     /**
