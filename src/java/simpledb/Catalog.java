@@ -36,7 +36,6 @@ public class Catalog {
     Map<String, Integer> nameToId;
     Map<Integer, Table> idToTable;
     List<Integer> ids;
-    List<Table> list_of_tables;
 
     /**
      * Constructor.
@@ -47,13 +46,14 @@ public class Catalog {
         idToTable = new ConcurrentHashMap<Integer, Table>();
         nameToId = new ConcurrentHashMap<String, Integer>();
         ids = new ArrayList<Integer>();
-        list_of_tables = new ArrayList<Table>();
     }
 
    /**
     * Returns a list of tables in the Catalog
     */
     public List<Table> get_list_of_tables() {
+        List<Table> list_of_tables = new ArrayList<Table>();
+
     	for(int i = 0; i < ids.size(); i++)
     	{
     		list_of_tables.add(idToTable.get(ids.get(i))); 
