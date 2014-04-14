@@ -54,10 +54,10 @@ public class HeapPageId implements PageId {
     public int hashCode() {
         // some code goes here
         throw new UnsupportedOperationException("implement this");
-        Integer i = firstStruct.tableID;
-        Integer j = firstStruct.pgNumber;
+//        Integer i = firstStruct.tableID;
+//        Integer j = firstStruct.pgNumber;
         
-        return firstStruct.tableID.toString() + (String) firstStruct.pgNumber.toString();
+//        return firstStruct.tableID.toString() + firstStruct.pgNumber.toString();
     }
 
     /**

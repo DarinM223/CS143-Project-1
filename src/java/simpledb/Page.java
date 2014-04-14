@@ -1,4 +1,4 @@
-package simpledb;
+ package simpledb;
 
 /**
  * Page is the interface used to represent pages that are resident in the
