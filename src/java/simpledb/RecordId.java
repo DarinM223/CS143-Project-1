@@ -19,13 +19,14 @@ public class RecordId implements Serializable {
      * @param tupleno
      *            the tuple number within the page.
      */
-    public PageId pid;
-    public int tupleno;
+    
+    private int tupleno;
+    private PageId pid;
     
     public RecordId(PageId pid, int tupleno) {
         // some code goes here
-    	this.pid = pid;
     	this.tupleno = tupleno;
+    	this.pid = pid;
     }
 
     /**
@@ -33,8 +34,7 @@ public class RecordId implements Serializable {
      */
     public int tupleno() {
         // some code goes here
-    	return tupleno;
-//        return 0;
+        return tupleno;
     }
 
     /**
@@ -42,8 +42,7 @@ public class RecordId implements Serializable {
      */
     public PageId getPageId() {
         // some code goes here
-    	return pid;
-//        return null;
+        return pid;
     }
 
     /**
@@ -55,11 +54,19 @@ public class RecordId implements Serializable {
     @Override
     public boolean equals(Object o) {
         // some code goes here
-    	if(this == o)
-    		return true;
-    	else
+    	//throw new UnsupportedOperationException("implement this");
+    	//Fix me: What to do with the throw
+    	if(o instanceof RecordId)
+    	{
+    		RecordId other = (RecordId)o;
+    		if(this.pid.equals(other.pid) && this.tupleno == other.tupleno)
+	    		return true;
+    		else
+    			return false;
+    	}
+    	else {
     		return false;
- //       throw new UnsupportedOperationException("implement this");
+    	}
     }
 
     /**
@@ -71,10 +78,8 @@ public class RecordId implements Serializable {
     @Override
     public int hashCode() {
         // some code goes here
-//    	if(this.equals(need an object parameter))
-//    		return this.tupleno;
-//        throw new UnsupportedOperationException("implement this");
-        return 0;
+  //      throw new UnsupportedOperationException("implement this");
+    	return this.getPageId().hashCode() + this.tupleno();
     }
 
 }
