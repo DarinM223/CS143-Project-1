@@ -1,6 +1,7 @@
 package simpledb;
 
 import java.util.*;
+import java.math.BigInteger;
 import java.io.*;
 
 /**
@@ -67,8 +68,8 @@ public class HeapPage implements Page {
     */
     private int getNumTuples() {        
         // some code goes here
-        return 0;
-
+    	int tupleSize = td.getSize();
+    	return (int)Math.floor( (BufferPool.PAGE_SIZE * 8.0) / (tupleSize * 8.0 + 1) );
     }
 
     /**
@@ -78,8 +79,7 @@ public class HeapPage implements Page {
     private int getHeaderSize() {        
         
         // some code goes here
-        return 0;
-                 
+        return (int)Math.ceil(numSlots / 8.0); 
     }
     
     /** Return a view of this page before it was modified
@@ -111,8 +111,9 @@ public class HeapPage implements Page {
      * @return the PageId associated with this page.
      */
     public HeapPageId getId() {
-    // some code goes here
-    throw new UnsupportedOperationException("implement this");
+    	// some code goes here
+    	//throw new UnsupportedOperationException("implement this");
+    	return pid;
     }
 
     /**
@@ -282,7 +283,27 @@ public class HeapPage implements Page {
      */
     public int getNumEmptySlots() {
         // some code goes here
-        return 0;
+        int bitCounter = 0;
+        int emptySlots = 0;
+        
+        //check the byte in the header
+        for(int i = 0; i < header.length; i++)
+        {
+        	byte[] byteToCheck = new byte[] {header[i]};
+        	BigInteger bi = new BigInteger(byteToCheck);
+        	
+        	//check the bits in the byte
+        	//8 represents the number of bits
+        	for(int k = 0; k < 8; k++)
+        	{
+        		if(bitCounter < numSlots && !bi.testBit(k))
+        		{
+        			emptySlots++;
+        			bitCounter++;
+        		}
+        	}
+        }
+        return emptySlots;
     }
 
     /**
@@ -290,7 +311,19 @@ public class HeapPage implements Page {
      */
     public boolean isSlotUsed(int i) {
         // some code goes here
-        return false;
+        if(i < 0 || i > this.numSlots) {
+        	//invalid index
+        	throw new IllegalArgumentException("Slot checked is out of bound");
+        }
+        
+        //index of byte in header
+        int byteIndex = (int)Math.floor(i/8.0);
+        int bitIndex = i % 8;
+        byte byteWithSlot = header[byteIndex];
+        byte[] b = new byte[] { byteWithSlot }; 
+        
+        BigInteger bi = new BigInteger(b);
+        return bi.testBit(bitIndex);
     }
 
     /**
@@ -307,8 +340,44 @@ public class HeapPage implements Page {
      */
     public Iterator<Tuple> iterator() {
         // some code goes here
-        return null;
+        List<Tuple> filledSlots = new ArrayList<Tuple>();
+        for(int i = 0; i < tuples.length; i++)
+        {
+        	if(isSlotUsed(i))
+        	{
+        		filledSlots.add(tuples[i]);
+        	}
+        }
+        return new HeapPageTupleIterator<Tuple>(filledSlots);
     }
-
+    
+    private class HeapPageTupleIterator<Tuple> implements Iterator<Tuple>
+    {
+    	//Tuples in the heap page
+    	private List<Tuple> filledSlots;
+    	private Iterator<Tuple> i;
+    	
+    	public HeapPageTupleIterator(List<Tuple> filledSlots)
+    	{
+    		this.filledSlots = filledSlots;
+    		i = filledSlots.iterator();
+    	}
+    	
+    	@Override
+    	public boolean hasNext()
+    	{
+    		return i.hasNext();
+    	}
+    	@Override
+    	public Tuple next()
+    	{
+    		return i.next();
+    	}
+    	@Override
+    	public void remove()
+    	{
+    		throw new UnsupportedOperationException();
+    	}
+    }
 }
 
