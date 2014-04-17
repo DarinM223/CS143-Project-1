@@ -71,15 +71,16 @@ public class BufferPool {
         // some code goes here
     	//if page is already in the BufferPool
     	if(PageId_to_Page.contains(pid))
-    	{
     		return PageId_to_Page.get(pid);
-    	} else {
+    	else 
+    	{
     		//Need to get page from disk
     		List<Table> tableList = Database.getCatalog().get_list_of_tables();
     		for(Table table : tableList)
     		{
     			if(table.file.getId() == pid.getTableId())
     			{
+    				//get the page from disk
     				Page diskPage = table.file.readPage(pid);
     				
     				//check to see if full
@@ -87,6 +88,7 @@ public class BufferPool {
     				{
     					evictPage();				
     				}
+    				//put the into the map if it is not full
     				PageId_to_Page.put(pid, diskPage);
     				
     				return diskPage;

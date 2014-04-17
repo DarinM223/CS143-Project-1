@@ -78,7 +78,8 @@ public class RecordId implements Serializable {
     @Override
     public int hashCode() {
         // some code goes here
-  //      throw new UnsupportedOperationException("implement this");
+    	// throw new UnsupportedOperationException("implement this");
+    	// concatenate
     	return this.getPageId().hashCode() + this.tupleno();
     }
 

@@ -18,6 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Catalog {
 
+	/**
+	 * Class that creates a table used with mapping and
+	 * need to make a container of all these tables which
+	 * the catalog hold.
+	 */
     public static class Table 
     {
             public String name;
@@ -76,8 +81,14 @@ public class Catalog {
         nameToId.put(name, file.getId());
         ids.add(file.getId());
     }
-
+    
+    /**
+     * Add's a table into the catalog via mapping structures
+     * @param file name of the file the table is being added to
+     * @param name the name of the table
+     */
     public void addTable(DbFile file, String name) {
+    	//adds a table to the mapping structures
         addTable(file, name, "");
     }
 
@@ -155,6 +166,9 @@ public class Catalog {
         return idToTable.get(tableid).primaryKey;
     }
 
+    /**
+     *  Iterate through all the tables created in the list
+     */
     public Iterator<Integer> tableIdIterator() {
         // some code goes here
         return ids.iterator();
