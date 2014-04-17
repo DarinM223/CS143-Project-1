@@ -1,8 +1,9 @@
 package simpledb;
 
 import java.io.*;
-
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import simpledb.Catalog.Table;
 
 /**
  * BufferPool manages the reading and writing of pages into memory from
@@ -31,8 +32,14 @@ public class BufferPool {
      *
      * @param numPages maximum number of pages in this buffer pool.
      */
+    
+    private ConcurrentHashMap<PageId, Page> PageId_to_Page;
+    private int m_max_pages;
+    
     public BufferPool(int numPages) {
         // some code goes here
+    	PageId_to_Page = new ConcurrentHashMap<PageId, Page>();
+    	m_max_pages = 0;
     }
     
     public static int getPageSize() {
@@ -62,7 +69,32 @@ public class BufferPool {
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
         // some code goes here
-        return null;
+    	//if page is already in the BufferPool
+    	if(PageId_to_Page.contains(pid))
+    	{
+    		return PageId_to_Page.get(pid);
+    	} else {
+    		//Need to get page from disk
+    		List<Table> tableList = Database.getCatalog().get_list_of_tables();
+    		for(Table table : tableList)
+    		{
+    			if(table.file.getId() == pid.getTableId())
+    			{
+    				Page diskPage = table.file.readPage(pid);
+    				
+    				//check to see if full
+    				if(m_max_pages == PageId_to_Page.size())
+    				{
+    					evictPage();				
+    				}
+    				PageId_to_Page.put(pid, diskPage);
+    				
+    				return diskPage;
+    			}
+    		}
+    		//if the page is not found in the BufferPool
+    		throw new DbException("Requested page not found in database");
+    	}
     }
 
     /**

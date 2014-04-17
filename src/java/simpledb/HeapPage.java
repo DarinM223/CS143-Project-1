@@ -67,8 +67,8 @@ public class HeapPage implements Page {
     */
     private int getNumTuples() {        
         // some code goes here
-        return 0;
-
+    	return tuples.length;
+//        return 0;
     }
 
     /**
@@ -76,8 +76,8 @@ public class HeapPage implements Page {
      * @return the number of bytes in the header of a page in a HeapFile with each tuple occupying tupleSize bytes
      */
     private int getHeaderSize() {        
-        
         // some code goes here
+//		(sum of bytes in each header) + (tuple.length * tupleSize)
         return 0;
                  
     }
@@ -112,7 +112,8 @@ public class HeapPage implements Page {
      */
     public HeapPageId getId() {
     // some code goes here
-    throw new UnsupportedOperationException("implement this");
+    	return this.pid;
+//    throw new UnsupportedOperationException("implement this");
     }
 
     /**
@@ -282,6 +283,7 @@ public class HeapPage implements Page {
      */
     public int getNumEmptySlots() {
         // some code goes here
+    	
         return 0;
     }
 
@@ -290,6 +292,7 @@ public class HeapPage implements Page {
      */
     public boolean isSlotUsed(int i) {
         // some code goes here
+    	
         return false;
     }
 
@@ -298,7 +301,7 @@ public class HeapPage implements Page {
      */
     private void markSlotUsed(int i, boolean value) {
         // some code goes here
-        // not necessary for lab1
+        // not necessary for lab1 	
     }
 
     /**
