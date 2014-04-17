@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Catalog {
 
-    private static class Table 
+    public static class Table 
     {
             public String name;
             public String primaryKey;
@@ -48,6 +48,19 @@ public class Catalog {
         ids = new ArrayList<Integer>();
     }
 
+   /**
+    * Returns a list of tables in the Catalog
+    */
+    public List<Table> get_list_of_tables() {
+        List<Table> list_of_tables = new ArrayList<Table>();
+
+    	for(int i = 0; i < ids.size(); i++)
+    	{
+    		list_of_tables.add(idToTable.get(ids.get(i))); 
+    	}
+    	return list_of_tables;
+    }
+    
     /**
      * Add a new table to the catalog.
      * This table's contents are stored in the specified DbFile.
