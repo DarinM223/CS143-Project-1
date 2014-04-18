@@ -80,7 +80,8 @@ public class RecordId implements Serializable {
         // some code goes here
     	// throw new UnsupportedOperationException("implement this");
     	// concatenate
-    	return this.getPageId().hashCode() + this.tupleno();
+    	//return this.getPageId().hashCode() + this.tupleno();
+        return (this.tupleno() << 16) | this.getPageId().hashCode();
     }
 
 }
