@@ -34,13 +34,11 @@ public class BufferPool {
      */
     
     private ConcurrentHashMap<PageId, Page> PageId_to_Page;
-    private int m_max_pages;
     private int numPages;
     
     public BufferPool(int numPages) {
         // some code goes here
     	PageId_to_Page = new ConcurrentHashMap<PageId, Page>();
-    	m_max_pages = 0;
         this.numPages = numPages;
     }
     

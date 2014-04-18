@@ -45,7 +45,7 @@ public class HeapPageId implements PageId {
         // some code goes here
         //throw new UnsupportedOperationException("implement this");
     	//Fix me: Dont know why the unsupportedOperationExpression is here
-        return tableId + pgNo;
+        return ((tableId << 16) | pgNo);
     }
 
     /**

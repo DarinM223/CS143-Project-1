@@ -80,9 +80,9 @@ public class HeapFile implements DbFile {
                 raf.close();
                 return new HeapPage((HeapPageId)pid, data);
         } catch (FileNotFoundException e) {
-                throw new IllegalArgumentException();
+                throw new RuntimeException(e);
         } catch (IOException e) {
-                throw new IllegalArgumentException();
+        	    throw new RuntimeException(e);
         }
     }
 

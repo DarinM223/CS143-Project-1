@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.sun.xml.internal.ws.api.FeatureConstructor;
+
 /**
  * Tuple maintains information about the contents of a tuple. Tuples have a
  * specified schema specified by a TupleDesc object and contain Field objects
@@ -71,6 +73,9 @@ public class Tuple implements Serializable {
      */
     public void setField(int i, Field f) {
         // some code goes here
+    	if (fields.get(i).getType() != f.getType()) {
+    		throw new RuntimeException();
+    	}
         fields.set(i, f);
     }
 
